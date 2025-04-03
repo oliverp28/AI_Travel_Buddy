@@ -1,0 +1,61 @@
+header {
+    padding-top: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    justify-content: space-between;
+    display: flex;
+}
+
+header h1 {
+    margin: 0;
+    line-height: 0.9;
+}
+
+header .travel {
+    color: #0083D4;
+}
+  
+header .buddy {
+    color: black;
+    opacity: 0.8;
+}
+
+header .description {
+    color: #0083D4;
+    font-size: 1.1rem;
+    opacity: 0.8;
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+nav a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.autoAwesomeIcon, .calendarMonthIcon {
+    margin-right: 0.6rem;
+}
+  
+header nav ul li {
+    background-color: #0083D4;
+    opacity: 0.8;
+    border-radius: 16px;
+    padding: 10px;
+}
+
+header nav ul li:not(:last-child) {
+    margin-right: 0.8rem;
+}
+  
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+ }
