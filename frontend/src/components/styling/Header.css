@@ -16,7 +16,7 @@ header .travel {
 }
   
 header .buddy {
-    color: black;
+    color: white;
     opacity: 0.8;
 }
 
@@ -45,7 +45,7 @@ nav a {
 }
   
 header nav ul li {
-    background-color: #0083D4;
+    background-color: white;
     opacity: 0.8;
     border-radius: 16px;
     padding: 10px;
@@ -56,6 +56,14 @@ header nav ul li:not(:last-child) {
 }
   
 header nav ul li a {
-    color: white;
+    color: #0083D4;
     text-decoration: none;
  }
+
+li.active {
+    background-color: #0083D4;
+}
+
+li.active a {
+    color: white;
+}
