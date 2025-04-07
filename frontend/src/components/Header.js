@@ -5,7 +5,7 @@ import './styling/Header.css';
 import MapIcon from '@mui/icons-material/Map';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import TravelBuddy from "./TravelBuddy.png";
+import TravelBuddy from "./BeerBuddy.png";
 import TravelBuddyText from "./TravelBuddyText.png";
 
 function Header() {

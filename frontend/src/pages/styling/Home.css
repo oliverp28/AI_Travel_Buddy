@@ -37,3 +37,93 @@
 .editCalendarIcon {
     margin-right: 0.3rem;
 }
+
+.date-destination-box {
+    display: flex;
+}
+
+.date-input {
+    width: 35%;
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 2px solid #114274;
+    background-color: rgba(255, 255, 255, 0.75);
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+    margin-right: 2rem;
+}
+
+.destination-input {
+    width: 60%;
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 2px solid #114274;
+    background-color: rgba(255, 255, 255, 0.75);
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+@import "leaflet/dist/leaflet.css";
+  
+.destination-field {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 2px solid #0083D4;
+    width: 20rem;
+    height: 1.2rem;
+    opacity: 60%;
+    color: #114274;
+    margin-top: 0.8rem;
+}
+  
+  .map-preview {
+    margin-top: 1.2rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    width: 18rem;
+    height: 14rem;
+    margin-right: 1.4rem;
+  }
+  
+  .platzhalter-bild {
+    width: 10rem;
+    height: 10rem;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .input-container {
+    position: relative;
+  }
+  
+  .clear-button {
+    position: absolute;
+    right: 0.3rem;
+    top: 60%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    font-size: 1.6rem;
+    color: #0083D4;
+    cursor: pointer;
+    opacity: 60%;
+  }
+  
+  .clear-button:hover {
+    color: #333;
+  }
+  
+  .category-input {
+    margin-top: 2rem;
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 2px solid #114274;
+    background-color: rgba(255, 255, 255, 0.75);
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+}
