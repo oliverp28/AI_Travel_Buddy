@@ -1,14 +1,18 @@
-header {
-    padding-top: 1rem;
+@import url('https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400;700&display=swap');
+
+header {    
+    padding-top: 0.6rem;
     padding-left: 2rem;
     padding-right: 2rem;
     justify-content: space-between;
     display: flex;
+    font-family: 'Anek Latin', sans-serif;
+    align-items: center;
 }
 
 header h1 {
     margin: 0;
-    line-height: 0.9;
+    line-height: 0.5;
 }
 
 header .travel {
@@ -43,6 +47,10 @@ nav a {
 .autoAwesomeIcon, .calendarMonthIcon {
     margin-right: 0.6rem;
 }
+
+header nav {
+    margin-top: 1.5rem;
+}
   
 header nav ul li {
     background-color: white;
@@ -66,4 +74,22 @@ li.active {
 
 li.active a {
     color: white;
+}
+
+li:hover {
+  background-color: #0083D4;
+}
+
+li:hover a {
+    color: white;
+}
+
+.TravelBuddy {
+    height: 4rem;
+}
+
+.TravelBuddyText {
+    height: 3rem;
+    width: 5.5rem;
+    margin-left: 0.1rem;
 }

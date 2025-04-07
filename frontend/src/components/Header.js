@@ -5,16 +5,16 @@ import './styling/Header.css';
 import MapIcon from '@mui/icons-material/Map';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-{/* import logo from "./TravelBuddyLogo.png"; */}
+import TravelBuddy from "./TravelBuddy.png";
+import TravelBuddyText from "./TravelBuddyText.png";
 
 function Header() {
   const location = useLocation();
   return (
     <header>
       <h1>
-        {/* <img src={logo} className="logo" /> */}
-        <span className="travel">Travel</span>
-        <span className="buddy">Buddy</span>
+        <img src={TravelBuddy} className="TravelBuddy"/>
+        <img src={TravelBuddyText} className="TravelBuddyText"/>
         <br/>
         <span className="description">Reisen leicht gemacht - Entdecke, plane, genieße!</span>
       </h1>

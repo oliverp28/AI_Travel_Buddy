@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400;700&display=swap');
+
+.page-container {
+    font-family: 'Anek Latin', sans-serif;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    min-height: calc(100vh - 9.2rem);
+    margin-top: 0;
+}
+
+.page-content h1 {
+    font-size: 2.6rem;
+    text-align: center;
+    color: #114274;
+    opacity: 0.9;
+    padding-top: 1.2rem;
+}
+
+.page-content h2 {
+    color: #114274;
+    opacity: 0.9;
+    font-size: 1.6rem;
+    margin-bottom: 0;
+}
+
+.date-entry {
+    display: flex;
+    align-items: center;
+    color: #0083D4;
+    opacity: 0.8;
+}
+
+.editCalendarIcon {
+    margin-right: 0.3rem;
+}
