@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400;700&display=swap');
 
-.page-container {
+.home-page-container {
     font-family: 'Anek Latin', sans-serif;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 16px;
@@ -183,19 +183,47 @@
   
   .search-input {
     border-radius: 8px;
-    border: 2px solid #114274;
     background-color: rgba(0, 131, 212, 0.6);
+    box-shadow: 0 5px 30px rgba(0,0,0,0.4);
     width: 25%;
     margin-left: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 13.5rem;
+    opacity: 0.9;
+  }
+
+  .search-input:hover {
+    opacity: 1;
   }
   
   .SearchBuddy {
     width: auto;  /* Breite wird automatisch angepasst */
     height: 80%; /* Bild nimmt die volle Höhe der Box ein */
     object-fit: contain; /* Bild behält seine Proportionen bei */
+  }
+  
+  .toast-error-fixed {
+    position: fixed;
+    top: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f44336;
+    color: white;
+    padding: 14px 40px;
+    border-radius: 16px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    z-index: 9999;
+    animation: fadeInOut 3s ease-in-out;
+  }
+  
+  @keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, -10px); }
+    10% { opacity: 1; transform: translate(-50%, 0); }
+    90% { opacity: 1; transform: translate(-50%, 0); }
+    100% { opacity: 0; transform: translate(-50%, -10px); }
   }
   

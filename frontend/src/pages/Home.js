@@ -6,15 +6,19 @@ import "react-datepicker/dist/react-datepicker.css";
 import { GoogleMap, LoadScript, Marker, Autocomplete } from '@react-google-maps/api';
 import PlatzHalter from './PlatzhalterKarte.png';
 import SearchBuddy from './SearchBuddy.png';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [destination, setDestination] = useState('');
-  const [coordinates, setCoordinates] = useState({ lat: 52.52, lng: 13.405 }); // Standardwert: Berlin
+  const [coordinates, setCoordinates] = useState({ lat: 52.52, lng: 13.405 });
   const [isEndDateOpen, setEndDateOpen] = useState(false);
   const [autocomplete, setAutocomplete] = useState(null);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [showToast, setShowToast] = useState(false);
+
+  const navigate = useNavigate();
 
   const categories = [
     "Nachtleben & Partys",
@@ -89,10 +93,34 @@ function Home() {
     setSelectedCategories([]);
   };
 
+  const handleSearch = () => {
+    if (!startDate || !endDate || !destination) {
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
+      return;
+    }
+
+    setShowToast(false);
+    navigate('/search', {
+      state: {
+        startDate,
+        endDate,
+        destination,
+      }
+    });
+  };
+
   return (
-    <div className='page-container'>
+    <div className='home-page-container'>
       <div className='page-content'>
         <h1>Reisedetails</h1>
+
+        {showToast && (
+          <div className="toast-error-fixed">
+            Bitte wähle Anreise-, Abreisedatum und ein Reiseziel aus.
+          </div>
+        )}
+
         <div className='date-destination-box'>
           <div className="date-input">
             <h2>Anreisedatum</h2>
@@ -206,8 +234,16 @@ function Home() {
               ))}
             </div>
           </div>
-          <div className="search-input">
-          <img src={SearchBuddy} className='SearchBuddy' />
+          <div
+            className="search-input"
+            onClick={handleSearch}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleSearch();
+            }}
+          >
+            <img src={SearchBuddy} className='SearchBuddy' alt="Search Buddy" />
           </div>
         </div>
       </div>

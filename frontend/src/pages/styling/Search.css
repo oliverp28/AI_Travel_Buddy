@@ -1,0 +1,233 @@
+.search-page-container {
+    font-family: 'Anek Latin', sans-serif;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 2rem;
+    height: calc(100vh - 13.5rem);
+  }
+  
+  .search-header {
+    display: flex;
+    gap: 2rem;
+  }
+  
+  .search-info-box {
+    width: 30%;
+  }
+
+  .search-fav-count {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.75);
+    border: 2px solid #114274;
+    border-radius: 12px;
+    padding-left: 1.5rem;
+    margin-top: 1rem;
+    height: 4rem;
+  }
+
+  .search-fav-number {
+    font-size: 1.6rem;
+    color: #0083D4;
+    opacity: 0.8;
+    padding-right: 2rem;
+  }
+  
+  .search-summary h2,
+  .search-categories h2{
+    color: #114274;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .search-fav-text h2 {
+    color: #114274;
+    font-size: 1.2rem;
+  }
+  
+  .search-tags button {
+    background: white;
+    border: 2px solid #69aee4;
+    color: #69aee4;
+    border-radius: 8px;
+    padding: 4px 12px;
+    margin: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  
+  .search-plan-button {
+    margin-top: 1rem;
+    width: 100%;
+    background-color: #0083D4;
+    opacity: 0.8;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    font-size: 1.1rem;
+  }
+
+  .search-activities-box {
+    width: 70%;
+    max-height: calc(100vh - 13.5rem);
+    overflow-y: scroll;
+  }
+  
+  .search-activities-box::-webkit-scrollbar {
+    width: 0.6rem;
+  }
+  
+  .search-activities-box::-webkit-scrollbar-track {
+    background: rgba(0, 131, 212, 0.2);
+    border-radius: 10px;
+  }
+  
+  .search-activities-box::-webkit-scrollbar-thumb {
+    background-color: #69aee4;
+    border-radius: 10px;
+  }
+  
+  .search-activities-box::-webkit-scrollbar-thumb:hover {
+    background-color: #0083D4;
+  }
+
+  .search-activities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+    margin-right: 1rem;
+  }
+  
+  .search-activities-header h1 {
+    font-size: 2rem;
+    color: #114274;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  
+  .search-activity-card {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+  .search-activity-card img {
+    width: 100%;
+    height: 150px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  
+  .search-activity-tags {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  
+  .search-tag {
+    background: #e0f1ff;
+    color: #114274;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+  }
+  
+  .search-price {
+    font-weight: bold;
+    color: #0083D4;
+  }
+  
+  .search-fav-button {
+    margin-top: 0.8rem;
+    background-color: transparent;
+    border: 2px solid #69aee4;
+    color: #69aee4;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  .search-summary {
+    background: rgba(255, 255, 255, 0.75);
+    border: 2px solid #114274;
+    border-radius: 12px;
+    padding-left: 1.5rem;
+    padding-bottom: 0.2rem;
+  }
+
+  .search-categories {
+    background: rgba(255, 255, 255, 0.75);
+    border: 2px solid #114274;
+    border-radius: 12px;
+    padding-left: 1.5rem;
+    padding-bottom: 0.8rem;
+    margin-top: 1rem;
+  }
+
+  .category-button {
+    background: white;
+    border: 2px solid #69aee4;
+    color: #69aee4;
+    border-radius: 8px;
+    padding: 4px 12px;
+    margin: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  
+  .category-button.active {
+    background: #69aee4;
+    color: white;
+  }
+  
+  .switch-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 1rem;
+  }
+  
+  .switch-button {
+    background-color: #f5f5f5;
+    color: #0083D4;
+    opacity: 0.7;
+    border: 2px solid #0083D4;
+    border-radius: 12px;
+    padding: 8px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    transition: 0.3s;
+  }
+  
+  .switch-button.active {
+    background-color: #0083D4;
+    opacity: 0.7;
+    color: white;
+  }
+  
+  .switch-button:hover {
+    background-color: #d0e7f9;
+  }
+  
+  .search-activities-header p {
+    font-size: 1rem;
+    color: #0083D4;
+    opacity: 0.8;
+  }
+
+  .search-activities-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
