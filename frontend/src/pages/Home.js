@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { GoogleMap, LoadScript, Marker, Autocomplete } from '@react-google-maps/api';
 import PlatzHalter from './PlatzhalterKarte.png';
+import SearchBuddy from './SearchBuddy.png';
 
 function Home() {
   const [startDate, setStartDate] = useState(null);
@@ -13,6 +14,19 @@ function Home() {
   const [coordinates, setCoordinates] = useState({ lat: 52.52, lng: 13.405 }); // Standardwert: Berlin
   const [isEndDateOpen, setEndDateOpen] = useState(false);
   const [autocomplete, setAutocomplete] = useState(null);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
+  const categories = [
+    "Nachtleben & Partys",
+    "Sehenswürdigkeiten",
+    "Kultur & Museen",
+    "Sport & Aktivitäten",
+    "Essen & Trinken",
+    "Shopping",
+    "Natur & Wandern",
+    "Wellness & Erholung",
+    "Events & Festivals"
+  ];
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -61,6 +75,18 @@ function Home() {
     if (autocompleteInstance) {
       setAutocomplete(autocompleteInstance);
     }
+  };
+
+  const toggleCategory = (category) => {
+    if (selectedCategories.includes(category)) {
+      setSelectedCategories(prev => prev.filter(c => c !== category));
+    } else {
+      setSelectedCategories(prev => [...prev, category]);
+    }
+  };
+
+  const clearCategories = () => {
+    setSelectedCategories([]);
   };
 
   return (
@@ -116,7 +142,6 @@ function Home() {
                       onChange={handleDestinationChange}
                       className="destination-field"
                     />
-                    {/* Clear Button */}
                     {destination && (
                       <button
                         className="clear-button"
@@ -156,16 +181,35 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className="category-input">
-            <h2>Reisekategorie</h2>
-            <select className="category-dropdown">
-              <option value="">Wählen Sie eine Kategorie</option>
-              <option value="business">Business</option>
-              <option value="vacation">Urlaub</option>
-              <option value="adventure">Abenteuer</option>
-              <option value="family">Familie</option>
-            </select>
+
+        <div className='category-search-box'>
+          <div className="category-input">
+            <div className="category-header">
+              <h2>Kategorien</h2>
+              <button
+                className={`all-button ${selectedCategories.length === 0 ? 'active' : ''}`}
+                onClick={clearCategories}
+              >
+                Alle Aktivitäten
+              </button>
+            </div>
+            <hr />
+            <div className="category-buttons">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  className={`category-button ${selectedCategories.includes(cat) ? 'active' : ''}`}
+                  onClick={() => toggleCategory(cat)}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
+          <div className="search-input">
+          <img src={SearchBuddy} className='SearchBuddy' />
+          </div>
+        </div>
       </div>
     </div>
   );
