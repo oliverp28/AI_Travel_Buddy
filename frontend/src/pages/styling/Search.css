@@ -266,3 +266,18 @@
     border: 2px solid #0083D4;
   }
   
+  .modal-image {
+    height: 20rem;
+    width: 100%;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .modal-content-container {
+    padding-right: 2rem;
+    padding-left: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
