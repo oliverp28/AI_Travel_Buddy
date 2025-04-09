@@ -144,7 +144,15 @@ function Search() {
             </div>
           </div>
 
-          <Link to="/travel-plan">
+          <Link
+            to="/travel-plan"
+            state={{
+              destination,
+              startDate,
+              endDate,
+              favoriteActivities: activities.filter(a => a.isFavorite)
+            }}
+          >
             <button className="search-plan-button">
               <PlanIcon className='PlanIcon' />
               <br />
