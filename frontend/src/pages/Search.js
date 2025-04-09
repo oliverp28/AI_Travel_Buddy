@@ -5,7 +5,6 @@ import ModalImage from './ModalImage.png';
 import { Link, useLocation } from 'react-router-dom';
 import PlanIcon from '@mui/icons-material/Map';
 import Modal from './Modal.js';
-import Wein from './SearchBuddy.png';
 
 // GPT-Antwort in strukturierte Objekte umwandeln
 function parseGPTActivities(text) {
@@ -21,7 +20,7 @@ function parseGPTActivities(text) {
       duration: "",
       providers: [],
       isFavorite: false,
-      image: Wein
+      image: ModalImage
     };
   }).filter(a => a.title);
 }
