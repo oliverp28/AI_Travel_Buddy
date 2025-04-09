@@ -15,7 +15,6 @@ function Home() {
   const [coordinates, setCoordinates] = useState({ lat: 52.52, lng: 13.405 });
   const [isEndDateOpen, setEndDateOpen] = useState(false);
   const [autocomplete, setAutocomplete] = useState(null);
-  const [selectedCategories, setSelectedCategories] = useState([]);
   const [showToast, setShowToast] = useState(false);
 
   const navigate = useNavigate();
@@ -31,6 +30,9 @@ function Home() {
     "Wellness & Erholung",
     "Events & Festivals"
   ];
+
+  // Alle Kategorien standardmäßig aktiv
+  const [selectedCategories, setSelectedCategories] = useState(categories);
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -89,8 +91,12 @@ function Home() {
     }
   };
 
-  const clearCategories = () => {
-    setSelectedCategories([]);
+  const toggleAllCategories = () => {
+    if (selectedCategories.length === categories.length) {
+      setSelectedCategories([]);
+    } else {
+      setSelectedCategories(categories);
+    }
   };
 
   const handleSearch = () => {
@@ -216,8 +222,8 @@ function Home() {
             <div className="category-header">
               <h2>Kategorien</h2>
               <button
-                className={`all-button ${selectedCategories.length === 0 ? 'active' : ''}`}
-                onClick={clearCategories}
+                className={`all-button ${selectedCategories.length === categories.length ? 'active' : ''}`}
+                onClick={toggleAllCategories}
               >
                 Alle Aktivitäten
               </button>
