@@ -106,6 +106,7 @@ function Home() {
         startDate,
         endDate,
         destination,
+        selectedCategories
       }
     });
   };
