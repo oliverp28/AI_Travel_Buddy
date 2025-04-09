@@ -1,14 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styling/Search.css';
 import './styling/Modal.css';
 import ModalImage from './ModalImage.png';
 import { Link, useLocation } from 'react-router-dom';
 import PlanIcon from '@mui/icons-material/Map';
 import Modal from './Modal.js';
+import Wein from './SearchBuddy.png';
+
+// GPT-Antwort in strukturierte Objekte umwandeln
+function parseGPTActivities(text) {
+  const blocks = text.trim().split("\n\n");
+  return blocks.map((block) => {
+    const get = (regex) => (block.match(regex)?.[1] || "").trim();
+    return {
+      title: get(/→ Name:\s*(.+)/),
+      desc: get(/→ Kurzbeschreibung:\s*(.+)/),
+      longDesc: get(/→ Kurzbeschreibung:\s*(.+)/),
+      tags: [get(/Kategorie:\s*(.+)/)],
+      price: get(/→ Preis pro Person:\s*(.+)/),
+      duration: "",
+      providers: [],
+      isFavorite: false,
+      image: Wein
+    };
+  }).filter(a => a.title);
+}
 
 function Search() {
   const location = useLocation();
-  const { startDate, endDate, destination } = location.state || {};
+  const { startDate, endDate, destination, selectedCategories } = location.state || {};
+
+  const [activeCategory, setActiveCategory] = useState('Alle Aktivitäten');
+  const [showFavorites, setShowFavorites] = useState(false);
+  const [activities, setActivities] = useState([]);
+  const [selectedActivity, setSelectedActivity] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const formatDate = (date) =>
     date
@@ -24,68 +50,8 @@ function Search() {
       ? `${formatDate(startDate)} – ${formatDate(endDate)}`
       : '–';
 
-  const activitiesData = [
-    {
-      id: 0,
-      title: 'Bootstour am Neckar',
-      desc: 'Entdecke die Stadt vom Wasser aus und genieße eine entspannte Fahrt auf dem Neckar.',
-      longDesc:
-        'Erlebe Heilbronn aus einer ganz neuen Perspektive und genieße eine entspannte Fahrt auf dem Neckar. Während du sanft über das Wasser gleitest, erwarten dich atemberaubende Ausblicke auf die Stadt, historische Brücken und idyllische Uferlandschaften. Erfahre interessante Fakten über die Region und ihre Geschichte – entweder durch einen Live-Guide oder über Audiokommentare an Bord.',
-      tags: ['Sport & Aktivitäten'],
-      price: '€ 12 – 18 p.P.',
-      duration: 'ca. 1,5 Stunden',
-      providers: ['Neckar Tours', 'Heilbronn River Cruises'],
-      isFavorite: true,
-      image: ModalImage,
-    },
-    {
-      id: 1,
-      title: 'Weinverkostung',
-      desc: 'Probiere exquisite regionale Weine und erfahre mehr über die Kunst des Weinbaus.',
-      longDesc:
-        'Genieße eine exklusive Weinverkostung mit einer Auswahl der besten regionalen Weine. Lerne mehr über die Kunst des Weinbaus, die Rebsorten und die Geschichte des Weinbaus in der Region. Die Verkostung wird begleitet von einem Fachmann, der dir alle Details zu den Weinen erläutert und dir Tipps zur Weinwahl gibt.',
-      tags: ['Essen & Trinken'],
-      price: '€ 20 – 30 p.P.',
-      duration: 'ca. 2 Stunden',
-      providers: ['Weinbau Heilbronn', 'VinoTours'],
-      isFavorite: false,
-      image: ModalImage,
-    },
-    {
-      id: 2,
-      title: 'Bootstour am Neckar',
-      desc: 'Entdecke die Stadt vom Wasser aus und genieße eine entspannte Fahrt auf dem Neckar.',
-      longDesc:
-        'Genieße eine einzigartige Perspektive auf Heilbronn und seine Umgebung, während du sanft über den Neckar gleitest. Bei der Bootstour hast du die Möglichkeit, historische Sehenswürdigkeiten, malerische Ufer und Natur zu erleben. Du wirst von einem erfahrenen Guide begleitet, der dir alles über die Geschichte der Region erzählt.',
-      tags: ['Sport & Aktivitäten'],
-      price: '€ 12 – 18 p.P.',
-      duration: 'ca. 1 Stunde',
-      providers: ['Neckar Tours'],
-      isFavorite: true,
-      image: ModalImage,
-    },
-    {
-      id: 3,
-      title: 'Weinverkostung am Neckar',
-      desc: 'Genieße eine Weinverkostung entlang des Neckars und entdecke regionale Weine.',
-      longDesc:
-        'Erlebe die Aromen und den Geschmack der regionalen Weine, während du die herrliche Aussicht auf den Neckar genießt. Diese Weinverkostung ist perfekt für Weinliebhaber und bietet eine Vielzahl an Weinen, die direkt von lokalen Winzern stammen. Der Anbieter stellt eine persönliche Führung durch die Weingüter und die Verkostung bereit.',
-      tags: ['Essen & Trinken'],
-      price: '€ 25 – 35 p.P.',
-      duration: 'ca. 2 Stunden',
-      providers: ['Weinbau Heilbronn'],
-      isFavorite: true,
-      image: ModalImage,
-    },
-  ];
-
-  const allCategories = activitiesData.flatMap((activity) => activity.tags);
+  const allCategories = activities.flatMap((activity) => activity.tags);
   const uniqueCategories = ['Alle Aktivitäten', ...new Set(allCategories)];
-
-  const [activeCategory, setActiveCategory] = useState('Alle Aktivitäten');
-  const [showFavorites, setShowFavorites] = useState(false);
-  const [activities, setActivities] = useState(activitiesData);
-  const [selectedActivity, setSelectedActivity] = useState(null);
 
   const getFavoriteCount = () => {
     return activities.filter((a) => a.isFavorite).length;
@@ -114,15 +80,45 @@ function Search() {
   };
 
   const filteredActivities = activities.filter((a) => {
-    if (activeCategory === 'Alle Aktivitäten') {
-      return true;
-    }
+    if (activeCategory === 'Alle Aktivitäten') return true;
     return a.tags.includes(activeCategory);
   });
 
   const filteredFavoriteActivities = showFavorites
     ? filteredActivities.filter((a) => a.isFavorite)
     : filteredActivities;
+
+  // GPT Call über Backend → Aktivitäten setzen
+  const handleSmartPlan = async () => {
+    const anreise = startDate;
+    const abreise = endDate;
+    const ziel = destination;
+    const kategorien = selectedCategories || [];
+
+    try {
+      setIsLoading(true);
+      const response = await fetch('http://localhost:8000/api/activities', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ anreise, abreise, ziel, kategorien }),
+      });
+
+      if (!response.ok) throw new Error('Fehler bei der API-Anfrage');
+
+      const data = await response.json();
+      const parsed = parseGPTActivities(data.activities);
+      console.log('Parsed GPT-Aktivitäten:', parsed);
+      setActivities(parsed);
+    } catch (error) {
+      console.error('Fehler beim Generieren des Plans:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleSmartPlan();
+  }, []);
 
   return (
     <div className="search-page-container">
@@ -198,36 +194,38 @@ function Search() {
             </div>
           </div>
 
-          <div className="search-activities-grid">
-            {filteredFavoriteActivities.map((a, idx) => (
-              <div key={idx} className="search-activity-card">
-                <div
-                  className="search-activity-link"
-                  onClick={() => handleOpenModal(a)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <img src={a.image} alt={a.title} />
-                  <h3>{a.title}</h3>
-                  <p>{a.desc}</p>
-                  <div className="search-activity-tags">
-                    {a.tags.map((t, i) => (
-                      <span key={i} className="search-tag">
-                        {t}
-                      </span>
-                    ))}
-                    <span className="search-price">{a.price}</span>
+          {isLoading ? (
+            <p>Lade Aktivitäten von GPT...</p>
+          ) : (
+            <div className="search-activities-grid">
+              {filteredFavoriteActivities.map((a, idx) => (
+                <div key={idx} className="search-activity-card">
+                  <div
+                    className="search-activity-link"
+                    onClick={() => handleOpenModal(a)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <img src={a.image} alt={a.title} />
+                    <h3>{a.title}</h3>
+                    <p>{a.desc}</p>
+                    <div className="search-activity-tags">
+                      {a.tags.map((t, i) => (
+                        <span key={i} className="search-tag">{t}</span>
+                      ))}
+                      <span className="search-price">{a.price}</span>
+                    </div>
                   </div>
-                </div>
 
-                <button
-                  className={`search-fav-button ${a.isFavorite ? 'favorite' : 'not-favorite'}`}
-                  onClick={() => handleFavoriteToggle(idx)}
-                >
-                  {a.isFavorite ? 'Aus Favoriten entfernen' : 'Zu Favoriten hinzufügen'}
-                </button>
-              </div>
-            ))}
-          </div>
+                  <button
+                    className={`search-fav-button ${a.isFavorite ? 'favorite' : 'not-favorite'}`}
+                    onClick={() => handleFavoriteToggle(idx)}
+                  >
+                    {a.isFavorite ? 'Aus Favoriten entfernen' : 'Zu Favoriten hinzufügen'}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -242,12 +240,10 @@ function Search() {
             />
           </div>
           <div className="modal-content-container">
-          <p>{selectedActivity.longDesc}</p>
+            <p>{selectedActivity.longDesc}</p>
             <div className="modal-tags">
               {selectedActivity.tags.map((t, i) => (
-                <span key={i} className="search-tag">
-                  {t}
-                </span>
+                <span key={i} className="search-tag">{t}</span>
               ))}
             </div>
             <p><strong>Dauer:</strong> {selectedActivity.duration}</p>
