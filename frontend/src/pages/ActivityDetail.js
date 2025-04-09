@@ -30,11 +30,11 @@ const activitiesData = [
 ];
 
 function ActivityDetail() {
-  const { id } = useParams(); // Hole die ID der Aktivität aus der URL
-  const activity = activitiesData.find(a => a.id === parseInt(id)); // Suche nach der Aktivität anhand der ID
+  const { id } = useParams();
+  const activity = activitiesData.find(a => a.id === parseInt(id));
 
   if (!activity) {
-    return <div>Aktivität nicht gefunden!</div>; // Falls keine Aktivität mit der ID gefunden wird
+    return <div>Aktivität nicht gefunden!</div>;
   }
 
   return (

@@ -199,9 +199,9 @@
   }
   
   .SearchBuddy {
-    width: auto;  /* Breite wird automatisch angepasst */
-    height: 80%; /* Bild nimmt die volle Höhe der Box ein */
-    object-fit: contain; /* Bild behält seine Proportionen bei */
+    width: auto;
+    height: 80%;
+    object-fit: contain;
   }
   
   .toast-error-fixed {

@@ -73,15 +73,13 @@ function Search() {
         }
       ];      
 
-  // Kategorien extrahieren und Duplikate entfernen
   const allCategories = activitiesData.flatMap(activity => activity.tags);
   const uniqueCategories = ["Alle Aktivitäten", ...new Set(allCategories)];
 
   const [activeCategory, setActiveCategory] = useState("Alle Aktivitäten");
   const [showFavorites, setShowFavorites] = useState(false);
-  const [activities, setActivities] = useState(activitiesData); // Aktivitäten im Zustand
+  const [activities, setActivities] = useState(activitiesData);
 
-  // Berechnet die Anzahl der favorisierten Aktivitäten unabhängig vom Filter
   const getFavoriteCount = () => {
     return activities.filter(a => a.isFavorite).length;
   };
@@ -97,18 +95,16 @@ function Search() {
   const handleFavoriteToggle = (index) => {
     const updatedActivities = [...activities];
     updatedActivities[index].isFavorite = !updatedActivities[index].isFavorite;
-    setActivities(updatedActivities); // Status der Favoriten für eine Aktivität aktualisieren
+    setActivities(updatedActivities);
   };
 
-  // Filtert die Aktivitäten basierend auf der gewählten Kategorie
   const filteredActivities = activities.filter(a => {
     if (activeCategory === "Alle Aktivitäten") {
-      return true; // Zeigt alle Aktivitäten, wenn "Alle Aktivitäten" gewählt ist
+      return true;
     }
-    return a.tags.includes(activeCategory); // Filtert nach Tags der ausgewählten Kategorie
+    return a.tags.includes(activeCategory);
   });
 
-  // Filtert nach Favoriten, wenn die "Favoriten"-Ansicht aktiv ist
   const filteredFavoriteActivities = showFavorites
     ? filteredActivities.filter(a => a.isFavorite)
     : filteredActivities;
@@ -144,7 +140,7 @@ function Search() {
               <h2>Anzahl favorisierter <br/> Aktivitäten</h2>
             </div>
             <div className='search-fav-number'>
-              <h2>{getFavoriteCount()}</h2> {/* Zeigt die Gesamtzahl der favorisierten Aktivitäten */}
+              <h2>{getFavoriteCount()}</h2>
             </div>
           </div>
 
@@ -182,7 +178,6 @@ function Search() {
           <div className="search-activities-grid">
             {filteredFavoriteActivities.map((a, idx) => (
               <div key={idx} className="search-activity-card">
-                {/* Nur das Bild, der Titel und die Beschreibung sind klickbar */}
                 <Link
                   to={{
                     pathname: `/search/activity-detail/${a.id}`,
@@ -213,7 +208,7 @@ function Search() {
           </div>
 
         </div>
-      </div>
+      </div>      
     </div>
   );
 }
