@@ -1,0 +1,8 @@
+.travel-plan-page-container {
+    font-family: 'Anek Latin', sans-serif;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 2rem;
+    height: calc(100vh - 13.5rem);
+  }

@@ -12,24 +12,20 @@ function Header() {
   const location = useLocation();
   return (
     <header>
-      <h1>
-        <img src={TravelBuddy} className="TravelBuddy"/>
-        <img src={TravelBuddyText} className="TravelBuddyText"/>
-        <br/>
-        <span className="description">Reisen leicht gemacht - Entdecke, plane, genieße!</span>
-      </h1>
+      <Link to="/" className='header-logo'>
+        <h1>
+          <img src={TravelBuddy} className="TravelBuddy"/>
+          <img src={TravelBuddyText} className="TravelBuddyText"/>
+          <br/>
+          <span className="description">Reisen leicht gemacht - Entdecke, plane, genieße!</span>
+        </h1>
+      </Link>
       <nav>
         <ul>
           <li className={location.pathname === "/inspiration" ? "active" : ""}>
             <Link to="/inspiration">
               <AutoAwesomeIcon className='autoAwesomeIcon'/> 
               Lass dich Inspirieren!
-            </Link>
-          </li>
-          <li className={location.pathname === "/my_travel_plans" ? "active" : ""}>
-            <Link to="/my_travel_plans">
-              <CalendarMonthIcon className='calendarMonthIcon'/>
-              Meine Reisepläne
             </Link>
           </li>
           <li className={location.pathname === "/" ? "active" : ""}>

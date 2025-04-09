@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './styling/Search.css';
-import Wein from './SearchBuddy.png';
-import { useLocation } from 'react-router-dom';
+import SearchBuddy from './SearchBuddy.png';
+import { Link, useLocation } from 'react-router-dom';
 import PlanIcon from '@mui/icons-material/Map';
 
 function Search() {
@@ -24,6 +24,7 @@ function Search() {
 
       const activitiesData = [
         {
+          id: 0,
           title: 'Bootstour am Neckar',
           desc: 'Entdecke die Stadt vom Wasser aus und genieße eine entspannte Fahrt auf dem Neckar.',
           longDesc: 'Erlebe Heilbronn aus einer ganz neuen Perspektive und genieße eine entspannte Fahrt auf dem Neckar. Während du sanft über das Wasser gleitest, erwarten dich atemberaubende Ausblicke auf die Stadt, historische Brücken und idyllische Uferlandschaften. Erfahre interessante Fakten über die Region und ihre Geschichte – entweder durch einen Live-Guide oder über Audiokommentare an Bord.',
@@ -32,9 +33,10 @@ function Search() {
           duration: 'ca. 1,5 Stunden',
           providers: ['Neckar Tours', 'Heilbronn River Cruises'],
           isFavorite: true,
-          image: Wein
+          image: SearchBuddy
         },
         {
+          id: 1,
           title: 'Weinverkostung',
           desc: 'Probiere exquisite regionale Weine und erfahre mehr über die Kunst des Weinbaus.',
           longDesc: 'Genieße eine exklusive Weinverkostung mit einer Auswahl der besten regionalen Weine. Lerne mehr über die Kunst des Weinbaus, die Rebsorten und die Geschichte des Weinbaus in der Region. Die Verkostung wird begleitet von einem Fachmann, der dir alle Details zu den Weinen erläutert und dir Tipps zur Weinwahl gibt.',
@@ -43,9 +45,10 @@ function Search() {
           duration: 'ca. 2 Stunden',
           providers: ['Weinbau Heilbronn', 'VinoTours'],
           isFavorite: false,
-          image: Wein
+          image: SearchBuddy
         },
         {
+          id: 2,
           title: 'Bootstour am Neckar',
           desc: 'Entdecke die Stadt vom Wasser aus und genieße eine entspannte Fahrt auf dem Neckar.',
           longDesc: 'Genieße eine einzigartige Perspektive auf Heilbronn und seine Umgebung, während du sanft über den Neckar gleitest. Bei der Bootstour hast du die Möglichkeit, historische Sehenswürdigkeiten, malerische Ufer und Natur zu erleben. Du wirst von einem erfahrenen Guide begleitet, der dir alles über die Geschichte der Region erzählt.',
@@ -54,9 +57,10 @@ function Search() {
           duration: 'ca. 1 Stunde',
           providers: ['Neckar Tours'],
           isFavorite: true,
-          image: Wein
+          image: SearchBuddy
         },
         {
+          id: 3,
           title: 'Weinverkostung am Neckar',
           desc: 'Genieße eine Weinverkostung entlang des Neckars und entdecke regionale Weine.',
           longDesc: 'Erlebe die Aromen und den Geschmack der regionalen Weine, während du die herrliche Aussicht auf den Neckar genießt. Diese Weinverkostung ist perfekt für Weinliebhaber und bietet eine Vielzahl an Weinen, die direkt von lokalen Winzern stammen. Der Anbieter stellt eine persönliche Führung durch die Weingüter und die Verkostung bereit.',
@@ -65,7 +69,7 @@ function Search() {
           duration: 'ca. 2 Stunden',
           providers: ['Weinbau Heilbronn'],
           isFavorite: true,
-          image: Wein
+          image: SearchBuddy
         }
       ];      
 
@@ -144,11 +148,13 @@ function Search() {
             </div>
           </div>
 
-          <button className="search-plan-button">
-            <PlanIcon className='PlanIcon' /> 
-            <br/>
-            Smarten Reiseplan generieren
-          </button>
+          <Link to="/travel-plan">
+            <button className="search-plan-button">
+              <PlanIcon className='PlanIcon' />
+              <br />
+              Smarten Reiseplan generieren
+            </button>
+          </Link>
         </div>
 
         <div className='search-activities-box'>
@@ -176,21 +182,36 @@ function Search() {
           <div className="search-activities-grid">
             {filteredFavoriteActivities.map((a, idx) => (
               <div key={idx} className="search-activity-card">
-                <img src={a.image} alt={a.title} />
-                <h3>{a.title}</h3>
-                <p>{a.desc}</p>
-                <div className="search-activity-tags">
-                  {a.tags.map((t, i) => (
-                    <span key={i} className="search-tag">{t}</span>
-                  ))}
-                  <span className="search-price">{a.price}</span>
-                </div>
-                <button className="search-fav-button" onClick={() => handleFavoriteToggle(idx)}>
+                {/* Nur das Bild, der Titel und die Beschreibung sind klickbar */}
+                <Link
+                  to={{
+                    pathname: `/search/activity-detail/${a.id}`,
+                    state: { activity: a }
+                  }}
+                  className="search-activity-link"
+                >
+                  <img src={a.image} alt={a.title} />
+                  <h3>{a.title}</h3>
+                  <p>{a.desc}</p>
+                  <div className="search-activity-tags">
+                    {a.tags.map((t, i) => (
+                      <span key={i} className="search-tag">{t}</span>
+                    ))}
+                    <span className="search-price">{a.price}</span>
+                  </div>
+                </Link>
+
+                <button
+                  className={`search-fav-button ${a.isFavorite ? 'favorite' : 'not-favorite'}`}
+                  onClick={() => handleFavoriteToggle(idx)}
+                >
                   {a.isFavorite ? 'Aus Favoriten entfernen' : 'Zu Favoriten hinzufügen'}
                 </button>
+
               </div>
             ))}
           </div>
+
         </div>
       </div>
     </div>

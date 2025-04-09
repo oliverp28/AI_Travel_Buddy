@@ -118,6 +118,21 @@
     padding: 1rem;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   }
+
+  .search-activity-link {
+    text-decoration: none;
+  }
+
+  .search-activity-card h3 {
+    color: #114274;
+    margin-bottom: 0;
+  }
+
+  .search-activity-card p {
+    color: #0083D4;
+    opacity: 0.8;
+    margin-top: 0.6rem;
+  }
   
   .search-activity-card img {
     width: 100%;
@@ -230,3 +245,24 @@
     justify-content: space-between;
     align-items: center;
   }
+
+  .search-fav-button {
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .search-fav-button.favorite {
+    background-color: #f5f5f5;
+    color: #0083D4;
+    opacity: 0.8;
+    border: 2px solid #0083D4;
+  }
+  
+  .search-fav-button.not-favorite {
+    background-color: #0083D4;
+    color: white;
+    opacity: 0.7;
+    border: 2px solid #0083D4;
+  }
+  
