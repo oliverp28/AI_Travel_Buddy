@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import TravelPlans from './pages/TravelPlans';
 import Inspiration from './pages/Inspiration';
 import Search from './pages/Search';
+import ActivityDetail from './pages/ActivityDetail';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/my_travel_plans" element={<TravelPlans />} />
           <Route path="/inspiration" element={<Inspiration />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/search/activity-detail" element={<ActivityDetail />} />
         </Routes>
       </div>
     </Router>
