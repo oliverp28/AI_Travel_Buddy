@@ -42,15 +42,33 @@ Schreib mir einfach, was du dir vorstellst – Strand, Abenteuer, Kultur oder ga
     setInput('');
     setLoading(true);
 
-    const response = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: input }),
-    });
+    try {
+      const response = await fetch('http://localhost:8000/api/travelchat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: input }),
+      });
+      
 
-    const data = await response.json();
-    const botMessage = { role: 'assistant', content: data.reply };
-    setMessages(prev => [...prev, botMessage]);
+      const text = await response.text();
+
+      try {
+        const data = JSON.parse(text);
+        const botMessage = { role: 'assistant', content: data.reply };
+        setMessages(prev => [...prev, botMessage]);
+      } catch (jsonError) {
+        setMessages(prev => [...prev, {
+          role: 'assistant',
+          content: `Unerwartete Antwort vom Server:\n\n\`${text}\``,
+        }]);
+      }
+    } catch (error) {
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: `Netzwerkfehler: ${error.message}`,
+      }]);
+    }
+
     setLoading(false);
   };
 
@@ -75,7 +93,7 @@ Schreib mir einfach, was du dir vorstellst – Strand, Abenteuer, Kultur oder ga
           }}
           placeholder='Ich will an den Strand, aber ich weiß nicht wohin...'
         />
-        <button onClick={handleSend}>
+        <button onClick={handleSend} disabled={loading}>
           <SendIcon />
         </button>
       </div>

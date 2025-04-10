@@ -14,11 +14,11 @@ function parseGPTActivities(text) {
     return {
       title: get(/→ Name:\s*(.+)/),
       desc: get(/→ Kurzbeschreibung:\s*(.+)/),
-      longDesc: get(/→ Kurzbeschreibung:\s*(.+)/),
+      longDesc: get(/→ Langbeschreibung:\s*(.+)/),
       tags: [get(/Kategorie:\s*(.+)/)],
       price: get(/→ Preis pro Person:\s*(.+)/),
-      duration: "",
-      providers: [],
+      duration: get(/→ Dauer:\s*(.+)/),
+      providers: [get(/→ Anbieter:\s*(.+)/)],
       isFavorite: false,
       image: ModalImage
     };
