@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './styling/TravelPlan.css';
 import { useLocation } from 'react-router-dom';
-import { FaClock, FaEuroSign } from 'react-icons/fa';
+import { FaClock, FaEuroSign, FaTrash } from 'react-icons/fa';
 import jsPDF from 'jspdf';
 import {
   DragDropContext,
@@ -50,6 +50,12 @@ const TravelPlan = () => {
 
   const dayCount = getDayCount(startDate, endDate);
   const [days, setDays] = useState(distributeActivities(favoriteActivities, dayCount));
+
+  const handleDelete = (dayIndex, activityIndex) => {
+    const updatedDays = [...days];
+    updatedDays[dayIndex].activities.splice(activityIndex, 1);
+    setDays(updatedDays);
+  };
 
   const handleExportPDF = async () => {
     const pdf = new jsPDF('p', 'mm', 'a4');
@@ -220,6 +226,12 @@ const TravelPlan = () => {
                                 </span>
                               </div>
                             </div>
+                            <button
+                              className="delete-btn"
+                              onClick={() => handleDelete(dayIndex, idx)}
+                            >
+                              <FaTrash />
+                            </button>
                           </div>
                         )}
                       </Draggable>
