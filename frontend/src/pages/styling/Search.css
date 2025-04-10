@@ -173,11 +173,15 @@
   }
 
   .search-summary {
-    background: rgba(255, 255, 255, 0.75);
+    position: relative;
     border: 2px solid #114274;
-    border-radius: 12px;
-    padding-left: 1.5rem;
-    padding-bottom: 0.2rem;
+    border-radius: 16px;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+    padding-left: 2rem;
+    background-color: white;
+    color: #114274;
+    font-family: 'Anek Latin', sans-serif;
   }
 
   .search-categories {
@@ -280,4 +284,18 @@
     padding-left: 2rem;
     padding-top: 1rem;
     padding-bottom: 2rem;
+  }
+
+  .search-data {
+    color: #69aee4;
+    margin-top: 0.6rem;
+  }
+
+  .EditNoteIcon {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.7rem;
+    color: #69aee4;
+    cursor: pointer;
+    transition: transform 0.2s ease;
   }

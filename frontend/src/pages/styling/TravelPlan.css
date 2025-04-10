@@ -1,21 +1,26 @@
 .travel-plan-page-container {
-    font-family: 'Anek Latin', sans-serif;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 16px;
-    padding: 2rem;
-    margin: 2rem;
-    height: calc(100vh - 13.5rem);
-  } 
+  font-family: 'Anek Latin', sans-serif;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2rem;
+  height: calc(100vh - 13.5rem);
+  overflow: hidden;
+}
 
 .travel-plan {
-  height: 100%;
+  max-height: calc(100% - 5rem);
   overflow-y: auto;
+  padding-right: 1rem;
+  scrollbar-width: 1rem;
+  scrollbar-color: #007acc #f4f4f4;
+  background: transparent;
 }
 
 .travel-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   border-bottom: 2px solid #dce1e6;
   padding-bottom: 10px;
   margin-bottom: 20px;
@@ -38,6 +43,20 @@
   font-weight: 500;
   color: #333;
   font-size: 0.95rem;
+}
+
+.export-btn {
+  background-color: #007acc;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.export-btn:hover {
+  background-color: #005f99;
 }
 
 .travel-day {
@@ -79,24 +98,6 @@
   margin-right: 4px;
 }
 
-.add-activity {
-  background-color: #007acc;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: background-color 0.2s ease;
-}
-
-.add-activity:hover {
-  background-color: #005fa3;
-}
-
 .delete-btn {
   background: none;
   border: none;
@@ -113,3 +114,16 @@
   border-radius: 4px;
   font-size: 0.85rem;
 }
+
+.no-activity {
+  font-style: italic;
+  color: #888;
+  padding: 0.5rem 1rem;
+  background-color: #eef2f5;
+  border-radius: 8px;
+}
+
+.travel-day:last-child {
+  margin-bottom: 8rem;
+}
+

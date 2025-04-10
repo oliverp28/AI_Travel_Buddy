@@ -5,6 +5,7 @@ import ModalImage from './ModalImage.png';
 import { Link, useLocation } from 'react-router-dom';
 import PlanIcon from '@mui/icons-material/Map';
 import Modal from './Modal.js';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 
 // GPT-Antwort in strukturierte Objekte umwandeln
 function parseGPTActivities(text) {
@@ -124,10 +125,13 @@ function Search() {
       <div className="search-header">
         <div className="search-info-box">
           <div className="search-summary">
+          <Link to="/">
+            <EditNoteIcon fontSize="large" className="EditNoteIcon" />
+          </Link>
             <h2>Datum</h2>
-            <p>{formattedDate}</p>
+            <p className='search-data'>{formattedDate}</p>
             <h2>Reiseziel</h2>
-            <p>{destination || '–'}</p>
+            <p className='search-data'>{destination || '–'}</p>
           </div>
 
           <div className="search-categories">
