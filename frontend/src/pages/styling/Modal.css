@@ -35,6 +35,8 @@
     border: none;
     border-radius: 50%;
     cursor: pointer;
+    color: #0083D4;
+    opacity: 0.9;
   } 
   
   .modal-tags {

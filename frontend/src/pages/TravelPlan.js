@@ -220,7 +220,7 @@ const TravelPlan = () => {
                                 <span className='price-info-activity'>
                                   <FaEuroSign />{' '}
                                   {activity.price.includes('Kostenlos') ? (
-                                    <span className="free-tag">Kostenlos</span>
+                                    <span>Kostenlos</span>
                                   ) : (
                                     activity.price
                                   )}

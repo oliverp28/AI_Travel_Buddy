@@ -64,9 +64,11 @@ function Search() {
     setShowFavorites(!showFavorites);
   };
 
-  const handleFavoriteToggle = (index) => {
-    const updatedActivities = [...activities];
-    updatedActivities[index].isFavorite = !updatedActivities[index].isFavorite;
+  // ✅ Fix: Vergleiche anhand des Titels
+  const handleFavoriteToggle = (title) => {
+    const updatedActivities = activities.map((a) =>
+      a.title === title ? { ...a, isFavorite: !a.isFavorite } : a
+    );
     setActivities(updatedActivities);
   };
 
@@ -105,7 +107,6 @@ function Search() {
 
       const data = await response.json();
       const parsed = parseGPTActivities(data.activities);
-      console.log('Parsed GPT-Aktivitäten:', parsed);
       setActivities(parsed);
     } catch (error) {
       console.error('Fehler beim Generieren des Plans:', error);
@@ -204,13 +205,9 @@ function Search() {
             </div>
           ) : (
             <div className="search-activities-grid">
-              {filteredFavoriteActivities.map((a, idx) => (
-                <div key={idx} className="search-activity-card">
-                  <div
-                    className="search-activity-link"
-                    onClick={() => handleOpenModal(a)}
-                    style={{ cursor: 'pointer' }}
-                  >
+              {filteredFavoriteActivities.map((a) => (
+                <div key={a.title} className="search-activity-card">
+                  <div className="search-activity-link" onClick={() => handleOpenModal(a)}>
                     <img src={a.image} alt={a.title} />
                     <h3>{a.title}</h3>
                     <p>{a.desc}</p>
@@ -224,7 +221,7 @@ function Search() {
 
                   <button
                     className={`search-fav-button ${a.isFavorite ? 'favorite' : 'not-favorite'}`}
-                    onClick={() => handleFavoriteToggle(idx)}
+                    onClick={() => handleFavoriteToggle(a.title)}
                   >
                     {a.isFavorite ? 'Aus Favoriten entfernen' : 'Zu Favoriten hinzufügen'}
                   </button>
@@ -245,7 +242,8 @@ function Search() {
             />
           </div>
           <div className="modal-content-container">
-            <p>{selectedActivity.longDesc}</p>
+            <p className='activity-detail-title'>{selectedActivity.title}</p>
+            <p className='activity-detail-longdesc'>{selectedActivity.longDesc}</p>
             <div className="modal-tags">
               {selectedActivity.tags.map((t, i) => (
                 <span key={i} className="search-tag">{t}</span>

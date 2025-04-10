@@ -4,41 +4,35 @@ import './styling/Inspiration.css';
 import SendIcon from '@mui/icons-material/Send';
 
 function Inspiration() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    {
+      role: 'assistant',
+      content: `Hey 👋 Ich bin dein Travel Buddy!  
+Schreib mir einfach, was du dir vorstellst – Strand, Abenteuer, Kultur oder ganz was anderes? 🌍✈️`
+    }
+  ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const chatBoxRef = useRef(null);
 
-  // Begrüßung beim ersten Laden
+  // Scroll to bottom
   useEffect(() => {
-    if (messages.length === 0) {
-      const welcomeMessage = {
-        role: 'assistant',
-        content: `Hey 👋 Ich bin dein Travel Buddy!  
-Schreib mir einfach, was du dir vorstellst – Strand, Abenteuer, Kultur oder ganz was anderes? 🌍✈️`
-      };
-      setMessages([welcomeMessage]);
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
-  }, []);
-
-  // Automatisch scrollen, wenn neue Nachrichten da sind
-  useEffect(() => {
-    const chatBox = chatBoxRef.current;
-    if (!chatBox) return;
-
-    const isScrolledToBottom =
-      chatBox.scrollHeight - chatBox.scrollTop <= chatBox.clientHeight + 100;
-
-    if (isScrolledToBottom) {
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-  }, [messages]);
+  }, [messages, loading]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
 
     const userMessage = { role: 'user', content: input };
-    setMessages(prev => [...prev, userMessage]);
+
+    // Entferne Begrüßung falls es die einzige Nachricht war
+    setMessages(prev => {
+      const updated = [...prev, userMessage];
+      return prev.length === 1 && prev[0].role === 'assistant' ? [userMessage] : updated;
+    });
+
     setInput('');
     setLoading(true);
 
@@ -48,24 +42,22 @@ Schreib mir einfach, was du dir vorstellst – Strand, Abenteuer, Kultur oder ga
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: input }),
       });
-      
 
       const text = await response.text();
 
       try {
         const data = JSON.parse(text);
-        const botMessage = { role: 'assistant', content: data.reply };
-        setMessages(prev => [...prev, botMessage]);
-      } catch (jsonError) {
+        setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
+      } catch (err) {
         setMessages(prev => [...prev, {
           role: 'assistant',
-          content: `Unerwartete Antwort vom Server:\n\n\`${text}\``,
+          content: `❌ Fehlerhafte Serverantwort:\n\n\`${text}\``
         }]);
       }
     } catch (error) {
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: `Netzwerkfehler: ${error.message}`,
+        content: `❌ Netzwerkfehler: ${error.message}`
       }]);
     }
 
@@ -80,7 +72,7 @@ Schreib mir einfach, was du dir vorstellst – Strand, Abenteuer, Kultur oder ga
             <ReactMarkdown>{msg.content}</ReactMarkdown>
           </div>
         ))}
-        {loading && <div className='message assistant'>⏳ ...</div>}
+        {loading && <div className='message assistant loading'>⏳ TravelBuddy denkt nach...</div>}
       </div>
 
       <div className='chat-input-container'>
