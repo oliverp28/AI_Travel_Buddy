@@ -63,3 +63,34 @@ async def plan_trip(request: Request):
     antwort = generate_activities(anreise, abreise, ziel, kategorien)
 
     return {"activities": antwort}
+
+# API-Endpunkt für Chatbot
+# Reiseinspirations-Chatbot: eigenständiger Endpoint
+@router.post("/api/travelchat")
+async def travel_chat(request: Request):
+    body = await request.json()
+    message = body.get("message")
+
+    if not message:
+        return {"reply": "Bitte gib eine Nachricht ein."}
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o", 
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "Du bist ein inspirierender Reise-Chatbot, der bei Urlaubsplanung hilft. "
+                        "Gib Empfehlungen zu Reisezielen, Aktivitäten oder Tipps – gerne mit Emojis. "
+                        "Antworten bitte freundlich, kurzweilig und hilfreich formulieren. Markdown ist erlaubt."
+                    )
+                },
+                {"role": "user", "content": message}
+            ]
+        )
+
+        reply = response.choices[0].message.content
+        return {"reply": reply}
+    except Exception as e:
+        return {"reply": f"Fehler beim Abrufen der Antwort: {str(e)}"}
