@@ -34,6 +34,12 @@ Stellen Sie sicher, dass die folgenden Softwarekomponenten auf Ihrem System inst
 - [Node.js 14+](https://nodejs.org/)
 - [npm 6+](https://www.npmjs.com/get-npm)
 
+> **Hinweis:**  
+> Für die Nutzung der OpenAI-Funktionalitäten muss im Verzeichnis `backend/` eine `.env`-Datei erstellt werden, die den OpenAI API Key enthält:
+```env
+OPENAI_API_KEY=YOUR_KEY
+```
+
 ## Einrichtung und Start
 
 Das Projekt enthält ein Bash-Skript `setup.sh`, das die Installation der Abhängigkeiten und den Start der Entwicklungsserver für Backend und Frontend automatisiert.
