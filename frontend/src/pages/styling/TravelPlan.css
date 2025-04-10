@@ -13,8 +13,9 @@
   overflow-y: auto;
   padding-right: 1rem;
   scrollbar-width: 1rem;
-  scrollbar-color: #007acc #f4f4f4;
+  scrollbar-color: #0083D4 #f4f4f4;
   background: transparent;
+  opacity: 0.9;
 }
 
 .travel-header {
@@ -29,24 +30,26 @@
 .travel-header h2 {
   margin: 0;
   font-size: 1.75rem;
-  color: #007acc;
+  color: #0083D4;
+  opacity: 0.9;
 }
 
 .travel-header p {
   margin: 4px 0 0;
-  color: #444;
+  color: #114274;
   font-size: 1rem;
 }
 
 .travel-dates span {
   margin: 0 5px;
   font-weight: 500;
-  color: #333;
-  font-size: 0.95rem;
+  color: #114274;
+  font-size: 1.1rem;
 }
 
 .export-btn {
-  background-color: #007acc;
+  background-color: #0083D4;
+  opacity: 0.9;
   color: white;
   border: none;
   border-radius: 8px;
@@ -55,17 +58,13 @@
   cursor: pointer;
 }
 
-.export-btn:hover {
-  background-color: #005f99;
-}
-
 .travel-day {
   margin-bottom: 2rem;
 }
 
 .travel-day h4 {
   font-size: 1.25rem;
-  color: #333;
+  color: #114274;
   margin-bottom: 1rem;
 }
 
@@ -82,20 +81,16 @@
 
 .activity-title {
   font-weight: 600;
-  margin: 0 0 6px;
-  color: #222;
+  margin: 0 0 0.7rem;
+  color: #0083D4;
+  font-size: 1.15rem;
 }
 
 .activity-info {
   display: flex;
-  gap: 1rem;
-  align-items: center;
-  font-size: 0.95rem;
-  color: #555;
-}
-
-.activity-info svg {
-  margin-right: 4px;
+  gap: 0.7rem;
+  font-size: 0.85rem;
+  color: white;
 }
 
 .delete-btn {
@@ -104,6 +99,32 @@
   color: #c00;
   cursor: pointer;
   font-size: 1rem;
+}
+
+.duartion-info-activity {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  background-color: #114274;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+  border-radius: 10px;
+}
+
+.price-info-activity {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 0.4rem;
+  background-color: #114274;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+  border-radius: 10px;
 }
 
 .free-tag {
@@ -117,13 +138,12 @@
 
 .no-activity {
   font-style: italic;
-  color: #888;
+  color: #114274;
   padding: 0.5rem 1rem;
   background-color: #eef2f5;
   border-radius: 8px;
 }
 
 .travel-day:last-child {
-  margin-bottom: 8rem;
+  margin-bottom: 4rem;
 }
-

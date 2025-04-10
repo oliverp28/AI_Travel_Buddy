@@ -197,7 +197,7 @@ function Search() {
 
           {isLoading ? (
             <div className="loading-box">
-              <p className="loading-text">Lade Aktivitäten von GPT...</p>
+              <p className="loading-text">Lade Aktivitäten...</p>
               <div className="loading-bar">
                 <div className="loading-fill" />
               </div>

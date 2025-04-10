@@ -80,18 +80,19 @@ const TravelPlan = () => {
     pdf.setFontSize(18);
     pdf.setTextColor('#007acc');
     pdf.text('Dein Reiseplan mit TravelBuddy', pageWidth / 2, y, { align: 'center' });
-    y += 10;
+    y += 16;
 
     pdf.setDrawColor('#007acc');
-    pdf.setFillColor(238, 246, 251);
+    pdf.setFillColor(240, 248, 255);
     pdf.roundedRect(margin, y, pageWidth - 2 * margin, 25, 3, 3, 'F');
     pdf.setFont('helvetica', 'normal');
-    pdf.setTextColor('#333');
+    pdf.setTextColor('#114274');
     pdf.setFontSize(12);
+    pdf.setFont('helvetica', 'bold');
     pdf.text(`Reiseziel: ${destination || 'Unbekannt'}`, margin + 4, y + 7);
     pdf.text(`Reisedaten: ${formatDate(startDate)} – ${formatDate(endDate)}`, margin + 4, y + 14);
     pdf.text(`Anzahl Tage: ${days.length}`, margin + 4, y + 21);
-    y += 35;
+    y += 40;
 
     days.forEach((day, i) => {
       if (i > 0) y += 12;
@@ -105,14 +106,14 @@ const TravelPlan = () => {
       if (day.activities.length === 0) {
         pdf.setFontSize(12);
         pdf.setFont('helvetica', 'italic');
-        pdf.setTextColor('#999');
+        pdf.setTextColor('#114274');
         pdf.text('Keine Aktivitäten geplant', margin + 4, y);
         y += 10;
       } else {
         day.activities.forEach((activity) => {
           pdf.setFontSize(12);
           pdf.setFont('helvetica', 'bold');
-          pdf.setTextColor('#000');
+          pdf.setTextColor('#114274');
           pdf.setFillColor(240, 248, 255);
           const boxHeight = 20;
           pdf.roundedRect(margin, y, pageWidth - 2 * margin, boxHeight, 3, 3, 'F');
@@ -137,7 +138,7 @@ const TravelPlan = () => {
     for (let i = 1; i <= pageCount; i++) {
       pdf.setPage(i);
       pdf.setFontSize(10);
-      pdf.setTextColor('#999');
+      pdf.setTextColor('#114274');
       pdf.setFont('helvetica', 'normal');
       pdf.text(`Seite ${i} von ${pageCount}`, pageWidth / 2, 287, { align: 'center' });
       pdf.text('TravelBuddy © 2025', pageWidth - margin, 287, { align: 'right' });
@@ -214,9 +215,9 @@ const TravelPlan = () => {
                           >
                             <div>
                               <p className="activity-title small">{activity.title}</p>
-                              <div className="activity-info small">
-                                <span><FaClock /> {activity.duration}</span>
-                                <span>
+                              <div className="activity-info">
+                                <span className='duartion-info-activity'><FaClock /> {activity.duration}</span>
+                                <span className='price-info-activity'>
                                   <FaEuroSign />{' '}
                                   {activity.price.includes('Kostenlos') ? (
                                     <span className="free-tag">Kostenlos</span>
