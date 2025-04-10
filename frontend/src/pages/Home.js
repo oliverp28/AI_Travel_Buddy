@@ -1,10 +1,11 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState, useRef, forwardRef } from 'react';
 import './styling/Home.css';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
+import EditCalendarOutlinedIcon from '@mui/icons-material/EditCalendarOutlined';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { GoogleMap, LoadScript, Marker, Autocomplete } from '@react-google-maps/api';
-import PlatzHalter from './PlatzhalterKarte.png';
 import SearchBuddy from './SearchBuddy.png';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,39 +13,42 @@ function Home() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [destination, setDestination] = useState('');
-  const [coordinates, setCoordinates] = useState({ lat: 52.52, lng: 13.405 });
-  const [isEndDateOpen, setEndDateOpen] = useState(false);
+  const [coordinates, setCoordinates] = useState({ lat: 49.142692, lng: 9.218613 });
+
   const [autocomplete, setAutocomplete] = useState(null);
   const [showToast, setShowToast] = useState(false);
 
+  const endDatePickerRef = useRef(); // ⬅️ Ref für Abreisedatum
   const navigate = useNavigate();
 
   const categories = [
-    "Nachtleben & Partys",
-    "Sehenswürdigkeiten",
-    "Kultur & Museen",
-    "Sport & Aktivitäten",
-    "Essen & Trinken",
-    "Shopping",
-    "Natur & Wandern",
-    "Wellness & Erholung",
-    "Events & Festivals"
+    "Nachtleben & Partys", "Sehenswürdigkeiten", "Kultur & Museen",
+    "Sport & Aktivitäten", "Essen & Trinken", "Shopping",
+    "Natur & Wandern", "Wellness & Erholung", "Events & Festivals"
   ];
 
-  // Alle Kategorien standardmäßig aktiv
   const [selectedCategories, setSelectedCategories] = useState(categories);
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
-    if (endDate && date > endDate) {
-      setEndDate(null);
-    }
-    setEndDateOpen(true);
+    if (endDate && date > endDate) setEndDate(null);
+
+    // Öffne den Abreise-DatePicker automatisch nach kurzer Verzögerung
+    setTimeout(() => {
+      if (endDatePickerRef.current) {
+        endDatePickerRef.current.setOpen(true);
+      }
+    }, 100);
   };
 
   const handleEndDateChange = (date) => {
     setEndDate(date);
-    setEndDateOpen(false);
+  };
+
+  const calculateDays = (start, end) => {
+    if (!start || !end) return 0;
+    const diffTime = end.getTime() - start.getTime();
+    return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
   };
 
   const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
@@ -54,13 +58,8 @@ function Home() {
     </div>
   ));
 
-  const handleDestinationChange = (e) => {
-    setDestination(e.target.value);
-  };
-
-  const handleClearDestination = () => {
-    setDestination('');
-  };
+  const handleDestinationChange = (e) => setDestination(e.target.value);
+  const handleClearDestination = () => setDestination('');
 
   const handlePlaceChanged = () => {
     if (autocomplete && autocomplete.getPlace) {
@@ -72,31 +71,23 @@ function Home() {
         });
         setDestination(place.formatted_address || place.name);
       }
-    } else {
-      console.error("Autocomplete oder getPlace ist nicht verfügbar.");
     }
   };
 
-  const handleAutocompleteLoad = (autocompleteInstance) => {
-    if (autocompleteInstance) {
-      setAutocomplete(autocompleteInstance);
-    }
-  };
+  const handleAutocompleteLoad = (instance) => setAutocomplete(instance);
 
   const toggleCategory = (category) => {
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories(prev => prev.filter(c => c !== category));
-    } else {
-      setSelectedCategories(prev => [...prev, category]);
-    }
+    setSelectedCategories(prev =>
+      prev.includes(category)
+        ? prev.filter(c => c !== category)
+        : [...prev, category]
+    );
   };
 
   const toggleAllCategories = () => {
-    if (selectedCategories.length === categories.length) {
-      setSelectedCategories([]);
-    } else {
-      setSelectedCategories(categories);
-    }
+    setSelectedCategories(
+      selectedCategories.length === categories.length ? [] : categories
+    );
   };
 
   const handleSearch = () => {
@@ -106,7 +97,6 @@ function Home() {
       return;
     }
 
-    setShowToast(false);
     navigate('/search', {
       state: {
         startDate,
@@ -116,6 +106,8 @@ function Home() {
       }
     });
   };
+
+  const tripDays = calculateDays(startDate, endDate);
 
   return (
     <div className='home-page-container'>
@@ -130,32 +122,43 @@ function Home() {
 
         <div className='date-destination-box'>
           <div className="date-input">
-            <h2>Anreisedatum</h2>
-            <DatePicker
-              selected={startDate}
-              onChange={handleStartDateChange}
-              customInput={<CustomDateInput />}
-              popperPlacement="right"
-              calendarClassName="custom-calendar"
-              dateFormat="dd.MM.yyyy"
-            />
+            <div className="date-left">
+              <h2>Anreisedatum</h2>
+              <DatePicker
+                selected={startDate}
+                onChange={handleStartDateChange}
+                customInput={<CustomDateInput />}
+                calendarClassName="custom-calendar"
+                dateFormat="dd.MM.yyyy"
+                popperPlacement="right"
+              />
 
-            <h2>Abreisedatum</h2>
-            <DatePicker
-              selected={endDate}
-              onChange={handleEndDateChange}
-              customInput={<CustomDateInput onClick={() => setEndDateOpen(true)} />}
-              popperPlacement="right"
-              calendarClassName="custom-calendar"
-              dateFormat="dd.MM.yyyy"
-              minDate={startDate}
-              open={isEndDateOpen}
-              onClickOutside={() => setEndDateOpen(false)}
-            />
+              <h2>Abreisedatum</h2>
+              <DatePicker
+                selected={endDate}
+                onChange={handleEndDateChange}
+                customInput={<CustomDateInput />}
+                calendarClassName="custom-calendar"
+                dateFormat="dd.MM.yyyy"
+                minDate={startDate}
+                popperPlacement="right"
+                ref={endDatePickerRef} // ⬅️ Ref einfügen
+              />
+            </div>
+
+            <div className='deco-stripe-date'></div>
+            <div className="date-right">
+              <EditCalendarOutlinedIcon className="date-icon" style={{ fontSize: '15rem' }} />
+              <div className="trip-duration">
+                <span className="trip-days-number">{tripDays}</span>
+                <span className="trip-days-label">{tripDays === 1 ? ' Tag' : ' Tage'}</span>
+              </div>
+            </div>
           </div>
 
           <div className="destination-input">
-            <div className='destination-input-field'>
+            <ExploreOutlinedIcon className="explore-icon" style={{ fontSize: '17rem' }} />
+            <div className="destination-input-field">
               <h2>Reiseziel</h2>
               <LoadScript
                 googleMapsApiKey="AIzaSyBqUfSeEybai2d--BPLnSmifIWxW0x8ETw"
@@ -172,16 +175,13 @@ function Home() {
                   <div className="input-container">
                     <input
                       type="text"
-                      placeholder={destination ? '' : 'Reiseziel eingeben...'}
+                      placeholder="Reiseziel eingeben..."
                       value={destination}
                       onChange={handleDestinationChange}
                       className="destination-field"
                     />
                     {destination && (
-                      <button
-                        className="clear-button"
-                        onClick={handleClearDestination}
-                      >
+                      <button className="clear-button" onClick={handleClearDestination}>
                         &times;
                       </button>
                     )}
@@ -190,8 +190,13 @@ function Home() {
               </LoadScript>
             </div>
 
-            <div className="map-preview">
-              {coordinates.lat !== 52.52 && coordinates.lng !== 13.405 ? (
+            <div className='deco-stripe-destination'></div>
+
+            <LoadScript
+              googleMapsApiKey="AIzaSyBqUfSeEybai2d--BPLnSmifIWxW0x8ETw"
+              libraries={['places']}
+            >
+              <div className="map-preview">
                 <GoogleMap
                   center={coordinates}
                   zoom={15}
@@ -206,14 +211,8 @@ function Home() {
                 >
                   <Marker position={coordinates} />
                 </GoogleMap>
-              ) : (
-                <img
-                  src={`https://maps.googleapis.com/maps/api/staticmap?center=49.1402,9.2181&zoom=12&size=600x300&markers=color:red%7Clabel:D%7C49.1402,9.2181&maptype=roadmap&key=AIzaSyDMU7CbrPL1RGy0f4VhsJ2mKH6VzqBRITw`}
-                  alt="Platzhalter Karte DHBW Heilbronn"
-                  style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '12px' }}
-                />
-              )}
-            </div>
+              </div>
+            </LoadScript>
           </div>
         </div>
 
@@ -241,6 +240,7 @@ function Home() {
               ))}
             </div>
           </div>
+
           <div
             className="search-input"
             onClick={handleSearch}

@@ -8,8 +8,14 @@
     padding-right: 2rem;
     margin-left: 2rem;
     margin-right: 2rem;
-    min-height: calc(100vh - 9.2rem);
+    height: calc(100vh - 9.2rem);
     margin-top: 0;
+}
+
+@media (min-height: 990px) {
+  .home-page-container {
+    height: calc(100vh - 17.5rem);
+  }
 }
 
 .page-content h1 {
@@ -43,20 +49,47 @@
 }
 
 .date-input {
-    width: 35%;
-    padding: 0.5rem;
-    border-radius: 8px;
-    border: 2px solid #114274;
-    background-color: rgba(255, 255, 255, 0.75);
-    padding-left: 2rem;
-    padding-bottom: 2rem;
-    margin-right: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 35%;
+  padding: 2rem;
+  border-radius: 16px;
+  border: 2px solid #114274;
+  background-color: rgba(255, 255, 255, 0.75);
+  margin-right: 2rem;
 }
+
+.date-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 45%;
+  height: 100%;
+}
+
+.date-left {
+  width: 45%;
+}
+
+.trip-days-number {
+  font-size: 5rem;
+  font-weight: bold;
+  color: #0083D4;
+}
+
+.trip-days-label {
+  display: block;
+  font-size: 2rem;
+  color: #114274;
+}
+
 
 .destination-input {
     width: 60%;
     padding: 0.5rem;
-    border-radius: 8px;
+    border-radius: 16px;
     border: 2px solid #114274;
     background-color: rgba(255, 255, 255, 0.75);
     padding-left: 2rem;
@@ -72,10 +105,10 @@
     padding: 10px;
     font-size: 1rem;
     border-radius: 5px;
-    border: 2px solid #0083D4;
+    border: 1.5px solid #114274;
     width: 20rem;
     height: 1.2rem;
-    opacity: 60%;
+    opacity: 0.75;
     color: #114274;
     margin-top: 0.8rem;
 }
@@ -85,16 +118,9 @@
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    width: 18rem;
+    width: 100%;
     height: 14rem;
     margin-right: 1.4rem;
-  }
-  
-  .platzhalter-bild {
-    width: 10rem;
-    height: 10rem;
-    object-fit: cover;
-    border-radius: 8px;
   }
   
   .input-container {
@@ -120,7 +146,7 @@
   
   .category-input {
     padding: 0.5rem;
-    border-radius: 8px;
+    border-radius: 16px;
     border: 2px solid #114274;
     background-color: rgba(255, 255, 255, 0.75);
     padding-left: 2rem;
@@ -182,20 +208,25 @@
   }
   
   .search-input {
-    border-radius: 8px;
-    background-color: rgba(0, 131, 212, 0.6);
-    box-shadow: 0 5px 30px rgba(0,0,0,0.4);
+    position: relative;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #66b7f1, #0083D4);
+    box-shadow: 0 6px 20px rgba(0, 131, 212, 0.4);
     width: 25%;
     margin-left: 2rem;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 13.5rem;
-    opacity: 0.9;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    color: white;
   }
-
+  
   .search-input:hover {
-    opacity: 1;
+    transform: scale(1.03);
+    box-shadow: 0 10px 25px rgba(0, 131, 212, 0.6);
   }
   
   .SearchBuddy {
@@ -227,3 +258,46 @@
     100% { opacity: 0; transform: translate(-50%, -10px); }
   }
   
+  .deco-stripe-destination {
+    height: calc(100% - 1.3rem);
+    margin-top: 1.1rem;
+    width: 2.5px;
+    background-color: #114274;
+    opacity: 0.5;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  .deco-stripe-date {
+    height: calc(100% - 1.8rem);
+    margin-top: 1.1rem;
+    width: 2.2px;
+    background-color: #114274;
+    opacity: 0.5;
+    margin-left: 5%;
+    margin-right: 10%;
+  }
+
+  .destination-field::placeholder {
+    color: #114274;
+    opacity: 1;
+  }
+  
+
+  .destination-field:focus {
+    outline: none;
+  }
+
+  .explore-icon {
+    position: absolute;
+    color: #0083D4;
+    opacity: 0.1;
+    margin-left: 0;
+    margin-top: 1.6rem;
+    margin-left: 2rem;
+  }
+  .date-icon {
+    position: absolute;
+    color: #0083D4;
+    opacity: 0.1;
+  }

@@ -7,7 +7,6 @@ import PlanIcon from '@mui/icons-material/Map';
 import Modal from './Modal.js';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 
-// GPT-Antwort in strukturierte Objekte umwandeln
 function parseGPTActivities(text) {
   const blocks = text.trim().split("\n\n");
   return blocks.map((block) => {
@@ -88,7 +87,6 @@ function Search() {
     ? filteredActivities.filter((a) => a.isFavorite)
     : filteredActivities;
 
-  // GPT Call über Backend → Aktivitäten setzen
   const handleSmartPlan = async () => {
     const anreise = startDate;
     const abreise = endDate;
@@ -125,9 +123,9 @@ function Search() {
       <div className="search-header">
         <div className="search-info-box">
           <div className="search-summary">
-          <Link to="/">
-            <EditNoteIcon fontSize="large" className="EditNoteIcon" />
-          </Link>
+            <Link to="/">
+              <EditNoteIcon fontSize="large" className="EditNoteIcon" />
+            </Link>
             <h2>Datum</h2>
             <p className='search-data'>{formattedDate}</p>
             <h2>Reiseziel</h2>
@@ -198,7 +196,12 @@ function Search() {
           </div>
 
           {isLoading ? (
-            <p>Lade Aktivitäten von GPT...</p>
+            <div className="loading-box">
+              <p className="loading-text">Lade Aktivitäten von GPT...</p>
+              <div className="loading-bar">
+                <div className="loading-fill" />
+              </div>
+            </div>
           ) : (
             <div className="search-activities-grid">
               {filteredFavoriteActivities.map((a, idx) => (
@@ -232,7 +235,6 @@ function Search() {
         </div>
       </div>
 
-      {/* MODAL */}
       {selectedActivity && (
         <Modal onClose={handleCloseModal}>
           <div className="modal-image-container">

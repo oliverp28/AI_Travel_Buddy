@@ -299,3 +299,44 @@
     cursor: pointer;
     transition: transform 0.2s ease;
   }
+
+  .loading-box {
+    background-color: rgba(0, 131, 212, 0.05);
+    border: 2px solid #69aee4;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 2rem;
+    text-align: center;
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+  
+  .loading-text {
+    color: #114274;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+  
+  .loading-bar {
+    width: 80%;
+    height: 10px;
+    background-color: #e0f1ff;
+    border-radius: 10px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .loading-fill {
+    width: 100%;
+    height: 100%;
+    background-color: #69aee4;
+    animation: loadingAnimation 2s linear infinite;
+  }
+  
+  @keyframes loadingAnimation {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  
