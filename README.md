@@ -16,13 +16,14 @@ AI_Travel_Buddy/
 │   ├── public/
 │   ├── package.json
 │   └── ...
-├── setup.sh
+├── frontend_setup.sh
+├── backend_setup.sh
 └── README.md
 ```
 
 - **backend/**: Enthält das FastAPI-Backend, das die API-Endpunkte bereitstellt und die Kommunikation mit OpenAI's API verwaltet.
 - **frontend/**: Beinhaltet das React-Frontend, das die Benutzeroberfläche der Anwendung darstellt.
-- **setup.sh**: Ein Bash-Skript zur Installation und zum Starten der erforderlichen Abhängigkeiten.
+- **setup.sh**: Ein Bash-Skript zur Installation und zum Starten der erforderlichen Abhängigkeiten. Es ist aufgeteilt in frontend und backend.
 - **README.md**: Diese Datei, die Informationen über das Projekt und Anweisungen zur Einrichtung enthält.
 
 ## Voraussetzungen
