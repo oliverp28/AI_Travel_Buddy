@@ -15,19 +15,26 @@ def generate_activities(anreise, abreise, ziel, kategorien):
 
     system_message = (
         "Du bist ein Reiseplanungsassistent. "
-        "Basierend auf dem Reiseziel, dem Reisezeitraum und den Kategorien gibst du Vorschläge für Aktivitäten. "
-        "Für jede Kategorie soll genau eine Aktivität vorgeschlagen werden im folgenden Format:\n\n"
-        "Kategorie: [Name]\n"
+        "Basierend auf dem Reiseziel, dem Reisezeitraum und den Interessen der Nutzerin/des Nutzers "
+        "erstellst du Vorschläge für genau eine Aktivität pro Kategorie. "
+        "Bitte liefere die Antwort im folgenden strukturierten Format:\n\n"
+
+        "Kategorie: [Name der Kategorie]\n"
         "Aktivität:\n"
-        "→ Name: [Aktivitätsname]\n"
-        "→ Kurzbeschreibung: [Text]\n"
-        "→ Preis pro Person: [Betrag in Euro]"
+        "→ Name: [Name der Aktivität]\n"
+        "→ Anbieter: [Name des Anbieters oder Veranstalters]\n"
+        "→ Dauer: [z. B. 2 Stunden oder Halbtagesausflug]\n"
+        "→ Kurzbeschreibung: [Eine knackige Beschreibung mit maximal 18 Wörtern]\n"
+        "→ Langbeschreibung: [Detaillierte Beschreibung mit 50 bis 80 Wörtern]\n"
+        "→ Preis pro Person: [z. B. 25 Euro]\n\n"
+
+        "Verwende für jede Kategorie genau dieses Format und schreibe keine zusätzlichen Texte davor oder danach."
     )
 
     user_prompt = (
         f"Ich reise vom {anreise} bis zum {abreise} nach {ziel}. "
         f"Meine Interessen sind: {kategorien_text}. "
-        f"Bitte gib für jede Kategorie genau eine Aktivität wie im genannten Format aus."
+        f"Bitte gib für jede Kategorie genau eine passende Aktivität in dem oben genannten Format zurück."
     )
 
     response = client.chat.completions.create(
@@ -39,7 +46,6 @@ def generate_activities(anreise, abreise, ziel, kategorien):
     )
 
     return response.choices[0].message.content
-
 
 # API-Endpunkt für Reiseplanung
 @router.post("/api/activities")
