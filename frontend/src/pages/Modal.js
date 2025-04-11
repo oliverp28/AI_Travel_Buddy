@@ -7,7 +7,7 @@ function Modal({ onClose, title, children }) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose}>
-          <CloseIcon />
+        <CloseIcon fontSize="medium" />
         </button>
         <div className="modal-body">{children}</div>
       </div>

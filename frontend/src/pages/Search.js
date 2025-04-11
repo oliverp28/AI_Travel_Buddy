@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './styling/Search.css';
 import './styling/Modal.css';
-import ModalImage from './ModalImage.png';
 import { Link, useLocation } from 'react-router-dom';
 import PlanIcon from '@mui/icons-material/Map';
 import Modal from './Modal.js';
@@ -282,59 +281,71 @@ function Search() {
 
       {selectedActivity && (
         <Modal onClose={handleCloseModal}>
-          <div className="modal-image-container">
-            <img
-              src={selectedActivity.imageWithText}
-              alt=""
-              className="modal-image-background"
-            />
-            <div className="modal-fade-left"></div>
-            <div className="modal-fade-right"></div>
-            <img
-              src={selectedActivity.imageWithText}
-              alt={selectedActivity.title}
-              className="modal-image"
-            />
-          </div>
+          {(() => {
+            const currentActivity = activities.find(a => a.title === selectedActivity.title);
+            if (!currentActivity) return null;
 
+            return (
+              <>
+                <div className="modal-image-container">
+                  <img
+                    src={currentActivity.imageWithText}
+                    alt=""
+                    className="modal-image-background"
+                  />
+                  <div className="modal-fade-left"></div>
+                  <div className="modal-fade-right"></div>
+                  <img
+                    src={currentActivity.imageWithText}
+                    alt={currentActivity.title}
+                    className="modal-image"
+                  />
 
-          <div className="modal-content-container">
-            <div className='modal-title-container'>
-              <p className='activity-detail-title'>{selectedActivity.title}</p>
-              <div className="modal-tags">
-                {selectedActivity.tags.map((t, i) => (
-                  <span key={i} className="detail-search-tag">{t}</span>
-                ))}
-              </div>
-            </div>
-            <p className='activity-detail-longdesc'>{selectedActivity.longDesc}</p>
-            
-            <div className="activity-detail-info-container">
-              <div className="activity-detail-info-wrapper">
-                <div className="activity-detail-info step-1">
-                  <strong className="activity-detail-info-text">Voraussichtliche Dauer:</strong>
-                  <span className="activity-detail-value">{selectedActivity.duration}</span>
+                  <button
+                    className={`modal-fav-button ${currentActivity.isFavorite ? 'favorite' : 'not-favorite'}`}
+                    onClick={() => handleFavoriteToggle(currentActivity.title)}
+                  >
+                    {currentActivity.isFavorite ? 'Aus Favoriten entfernen' : 'Zu Favoriten hinzufügen'}
+                  </button>
                 </div>
-                <div className="activity-detail-info step-2">
-                  <strong className="activity-detail-info-text">Voraussichtlicher Preis:</strong>
-                  <span className="activity-detail-value">{selectedActivity.price}</span>
+
+                <div className="modal-content-container">
+                  <div className='modal-title-container'>
+                    <p className='activity-detail-title'>{currentActivity.title}</p>
+                    <div className="modal-tags">
+                      {currentActivity.tags.map((t, i) => (
+                        <span key={i} className="detail-search-tag">{t}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <p className='activity-detail-longdesc'>{currentActivity.longDesc}</p>
+
+                  <div className="activity-detail-info-container">
+                    <div className="activity-detail-info-wrapper">
+                      <div className="activity-detail-info step-1">
+                        <strong className="activity-detail-info-text">Voraussichtliche Dauer:</strong>
+                        <span className="activity-detail-value">{currentActivity.duration}</span>
+                      </div>
+                      <div className="activity-detail-info step-2">
+                        <strong className="activity-detail-info-text">Voraussichtlicher Preis:</strong>
+                        <span className="activity-detail-value">{currentActivity.price}</span>
+                      </div>
+                      <div className="activity-detail-info step-3">
+                        <strong className="activity-detail-info-text">Veranstalter:</strong>
+                        <span className="activity-detail-value">{currentActivity.providers.join(', ')}</span>
+                      </div>
+                    </div>
+                    <div className="activity-detail-buddy">
+                      <img src={ShowBuddy} className='activity-detail-buddy-image' alt="Search Buddy" />
+                    </div>
+                  </div>
                 </div>
-                <div className="activity-detail-info step-3">
-                  <strong className="activity-detail-info-text">Veranstalter:</strong>
-                  <span className="activity-detail-value">{selectedActivity.providers.join(', ')}</span>
-                </div>
-              </div>
-              <div className="activity-detail-buddy">
-                <img src={ShowBuddy} className='activity-detail-buddy-image' alt="Search Buddy" />
-              </div>
-            </div>
-
-
-
-
-          </div>
+              </>
+            );
+          })()}
         </Modal>
       )}
+
     </div>
   );
 }

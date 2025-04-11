@@ -23,20 +23,25 @@
     padding-top: 0.5rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+    position: relative;
   }
   
   .modal-close {
-    padding-top: 0.3rem;
-    padding-bottom: 0.2rem;
     position: absolute;
-    right: 0;
-    top: 0;
-    margin-right: 4rem;
-    margin-top: 9rem;
+    top: 1.4rem;
+    right: 1.6rem;
     background-color: white;
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    color: #0083D4;
-    opacity: 0.9;
-  } 
+    color: #69aee4;
+    width: 2.2rem;
+    height: 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    opacity: 0.85;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+  }

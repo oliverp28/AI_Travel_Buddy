@@ -95,14 +95,24 @@ const TravelPlan = () => {
     y += 40;
 
     days.forEach((day, i) => {
+      const boxHeight = 20;
+      const activitiesHeight = day.activities.length * (boxHeight + 4);
+      const headingHeight = 20;
+      const totalSpaceNeeded = headingHeight + activitiesHeight;
+    
+      if (y + totalSpaceNeeded > 270) {
+        pdf.addPage();
+        y = margin;
+      }
+    
       if (i > 0) y += 12;
-
+    
       pdf.setFontSize(14);
       pdf.setTextColor('#007acc');
       pdf.setFont('helvetica', 'bold');
       pdf.text(`Tag ${i + 1} – ${day.date}`, margin, y);
       y += 8;
-
+    
       if (day.activities.length === 0) {
         pdf.setFontSize(12);
         pdf.setFont('helvetica', 'italic');
@@ -111,29 +121,30 @@ const TravelPlan = () => {
         y += 10;
       } else {
         day.activities.forEach((activity) => {
+          const spaceNeeded = boxHeight + 4;
+    
+          if (y + spaceNeeded > 270) {
+            pdf.addPage();
+            y = margin;
+          }
+    
           pdf.setFontSize(12);
           pdf.setFont('helvetica', 'bold');
           pdf.setTextColor('#114274');
           pdf.setFillColor(240, 248, 255);
-          const boxHeight = 20;
           pdf.roundedRect(margin, y, pageWidth - 2 * margin, boxHeight, 3, 3, 'F');
           pdf.text(activity.title, margin + 5, y + 7);
-
+    
           pdf.setFontSize(11);
           pdf.setFont('helvetica', 'normal');
           const cost = activity.price.includes('Kostenlos') ? 'Kostenlos' : activity.price;
           pdf.text(`Dauer: ${activity.duration}   |   Preis: ${cost}`, margin + 5, y + 14);
-
-          y += boxHeight + 4;
-
-          if (y > 270) {
-            pdf.addPage();
-            y = margin;
-          }
+    
+          y += spaceNeeded;
         });
       }
     });
-
+    
     const pageCount = pdf.internal.getNumberOfPages();
     for (let i = 1; i <= pageCount; i++) {
       pdf.setPage(i);
