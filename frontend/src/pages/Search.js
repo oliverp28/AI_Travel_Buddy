@@ -6,21 +6,69 @@ import { Link, useLocation } from 'react-router-dom';
 import PlanIcon from '@mui/icons-material/Map';
 import Modal from './Modal.js';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import ShowBuddy from './ShowBuddy.png';
+import Essen from './categoryBanner/Essen.png';
+import Events from './categoryBanner/Events.png';
+import Kultur from './categoryBanner/Kultur.png';
+import Natur from './categoryBanner/Natur.png';
+import Einkaufen from './categoryBanner/Einkaufen.png';
+import Sightseeing from './categoryBanner/Sightseeing.png';
+import Sport from './categoryBanner/Sport.png';
+import Wellness from './categoryBanner/Wellness.png';
+import Nachtleben from './categoryBanner/Nachtleben.png';
+
+import EssenMitText from './categoryBanner/Essen2.png';
+import EventsMitText from './categoryBanner/Events2.png';
+import KulturMitText from './categoryBanner/Kultur2.png';
+import NaturMitText from './categoryBanner/Natur2.png';
+import EinkaufenMitText from './categoryBanner/Einkaufen2.png';
+import SightseeingMitText from './categoryBanner/Sightseeing2.png';
+import SportMitText from './categoryBanner/Sport2.png';
+import WellnessMitText from './categoryBanner/Wellness2.png';
+import NachtlebenMitText from './categoryBanner/Nachtleben2.png';
+
+
+const categoryImages = {
+  "Essen & Trinken": Essen,
+  "Events & Festivals": Events,
+  "Kultur & Museen": Kultur,
+  "Natur & Wandern": Natur,
+  "Shopping": Einkaufen,
+  "Sehenswürdigkeiten": Sightseeing,
+  "Sport & Aktivitäten": Sport,
+  "Wellness & Erholung": Wellness,
+  "Nachtleben & Partys": Nachtleben
+};
+
+const categoryImagesWithText = {
+  "Essen & Trinken": EssenMitText,
+  "Events & Festivals": EventsMitText,
+  "Kultur & Museen": KulturMitText,
+  "Natur & Wandern": NaturMitText,
+  "Shopping": EinkaufenMitText,
+  "Sehenswürdigkeiten": SightseeingMitText,
+  "Sport & Aktivitäten": SportMitText,
+  "Wellness & Erholung": WellnessMitText,
+  "Nachtleben & Partys": NachtlebenMitText
+};
 
 function parseGPTActivities(text) {
   const blocks = text.trim().split("\n\n");
   return blocks.map((block) => {
     const get = (regex) => (block.match(regex)?.[1] || "").trim();
+    const category = get(/Kategorie:\s*(.+)/);
+
     return {
       title: get(/→ Name:\s*(.+)/),
       desc: get(/→ Kurzbeschreibung:\s*(.+)/),
       longDesc: get(/→ Langbeschreibung:\s*(.+)/),
-      tags: [get(/Kategorie:\s*(.+)/)],
+      tags: [category],
       price: get(/→ Preis pro Person:\s*(.+)/),
       duration: get(/→ Dauer:\s*(.+)/),
       providers: [get(/→ Anbieter:\s*(.+)/)],
       isFavorite: false,
-      image: ModalImage
+      image: categoryImages[category],
+      imageWithText: categoryImagesWithText[category]
     };
   }).filter(a => a.title);
 }
@@ -236,22 +284,54 @@ function Search() {
         <Modal onClose={handleCloseModal}>
           <div className="modal-image-container">
             <img
-              src={selectedActivity.image}
+              src={selectedActivity.imageWithText}
+              alt=""
+              className="modal-image-background"
+            />
+            <div className="modal-fade-left"></div>
+            <div className="modal-fade-right"></div>
+            <img
+              src={selectedActivity.imageWithText}
               alt={selectedActivity.title}
-              className='modal-image'
+              className="modal-image"
             />
           </div>
+
+
           <div className="modal-content-container">
-            <p className='activity-detail-title'>{selectedActivity.title}</p>
-            <p className='activity-detail-longdesc'>{selectedActivity.longDesc}</p>
-            <div className="modal-tags">
-              {selectedActivity.tags.map((t, i) => (
-                <span key={i} className="search-tag">{t}</span>
-              ))}
+            <div className='modal-title-container'>
+              <p className='activity-detail-title'>{selectedActivity.title}</p>
+              <div className="modal-tags">
+                {selectedActivity.tags.map((t, i) => (
+                  <span key={i} className="detail-search-tag">{t}</span>
+                ))}
+              </div>
             </div>
-            <p><strong>Dauer:</strong> {selectedActivity.duration}</p>
-            <p><strong>Anbieter:</strong> {selectedActivity.providers.join(', ')}</p>
-            <p><strong>Preis:</strong> {selectedActivity.price}</p>
+            <p className='activity-detail-longdesc'>{selectedActivity.longDesc}</p>
+            
+            <div className="activity-detail-info-container">
+              <div className="activity-detail-info-wrapper">
+                <div className="activity-detail-info step-1">
+                  <strong className="activity-detail-info-text">Voraussichtliche Dauer:</strong>
+                  <span className="activity-detail-value">{selectedActivity.duration}</span>
+                </div>
+                <div className="activity-detail-info step-2">
+                  <strong className="activity-detail-info-text">Voraussichtlicher Preis:</strong>
+                  <span className="activity-detail-value">{selectedActivity.price}</span>
+                </div>
+                <div className="activity-detail-info step-3">
+                  <strong className="activity-detail-info-text">Veranstalter:</strong>
+                  <span className="activity-detail-value">{selectedActivity.providers.join(', ')}</span>
+                </div>
+              </div>
+              <div className="activity-detail-buddy">
+                <img src={ShowBuddy} className='activity-detail-buddy-image' alt="Search Buddy" />
+              </div>
+            </div>
+
+
+
+
           </div>
         </Modal>
       )}
