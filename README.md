@@ -7,7 +7,6 @@
 ```
 AI_Travel_Buddy/
 ├── backend/
-│   ├── backend.py
 │   ├── main.py
 │   ├── __init__.py
 │   └── ...
@@ -16,15 +15,15 @@ AI_Travel_Buddy/
 │   ├── public/
 │   ├── package.json
 │   └── ...
-├── frontend_setup.sh
-├── backend_setup.sh
+├── requirements.txt
+├── Makefile
 └── README.md
 ```
 
-- **backend/**: Enthält das FastAPI-Backend, das die API-Endpunkte bereitstellt und die Kommunikation mit OpenAI's API verwaltet.
+- **backend/**: Enthält das FastAPI-Backend, das die API-Endpunkte bereitstellt und die Kommunikation mit OpenAI verwaltet.
 - **frontend/**: Beinhaltet das React-Frontend, das die Benutzeroberfläche der Anwendung darstellt.
-- **setup.sh**: Ein Bash-Skript zur Installation und zum Starten der erforderlichen Abhängigkeiten. Es ist aufgeteilt in frontend und backend.
-- **README.md**: Diese Datei, die Informationen über das Projekt und Anweisungen zur Einrichtung enthält.
+- **Makefile**: Automatisiert die Einrichtung und den Start von Frontend und Backend.
+- **README.md**: Diese Datei – enthält Informationen zum Projekt und zur Einrichtung.
 
 ## Voraussetzungen
 
@@ -33,105 +32,57 @@ Stellen Sie sicher, dass die folgenden Softwarekomponenten auf Ihrem System inst
 - [Python 3.10+](https://www.python.org/downloads/)
 - [Node.js 14+](https://nodejs.org/)
 - [npm 6+](https://www.npmjs.com/get-npm)
+- [make](https://www.gnu.org/software/make/)  
+  _(Für Windows: nutze z. B. Git Bash, WSL oder installiere Make für Windows)_
 
 > **Hinweis:**  
 > Für die Nutzung der OpenAI-Funktionalitäten muss im Verzeichnis `backend/` eine `.env`-Datei erstellt werden, die den OpenAI API Key enthält:
+
 ```env
 OPENAI_API_KEY=YOUR_KEY
 ```
 
-## Einrichtung und Start
+## Einrichtung und Start mit `make`
 
-Das Projekt enthält ein Bash-Skript `setup.sh`, das die Installation der Abhängigkeiten und den Start der Entwicklungsserver für Backend und Frontend automatisiert.
+Das Projekt nutzt ein `Makefile`, um die Einrichtung und den Startprozess zu vereinfachen.
 
-### Nutzung von `setup.sh`
+### Backend starten:
 
-1. Navigieren Sie im Terminal in das Hauptverzeichnis des Projekts:
+```bash
+make backend
+```
 
-   ```bash
-   cd /pfad/zum/AI_Travel_Buddy
-   ```
+Dieser Befehl führt folgende Schritte aus:
 
-2. Machen Sie das Skript ausführbar (falls nicht bereits geschehen):
+- Erstellt eine virtuelle Python-Umgebung
+- Installiert alle Abhängigkeiten aus `requirements.txt`
+- Startet den FastAPI-Server mit Uvicorn unter `http://localhost:8000`
 
-   ```bash
-   chmod +x setup.sh
-   ```
+### Frontend starten:
 
-3. Führen Sie das Skript aus:
+```bash
+make frontend
+```
 
-   ```bash
-   ./setup.sh
-   ```
+Dieser Befehl:
 
-Das Skript führt die folgenden Schritte aus:
+- Wechselt in das `frontend/`-Verzeichnis
+- Installiert die Node.js-Abhängigkeiten
+- Startet den React-Entwicklungsserver unter `http://localhost:3000`
 
-- Erstellt und aktiviert eine Python-virtuelle Umgebung im `backend/`-Verzeichnis.
-- Installiert die Python-Abhängigkeiten aus der `requirements.txt`.
-- Startet den FastAPI-Server mit Uvicorn.
-- Wechselt in das `frontend/`-Verzeichnis.
-- Installiert die Node.js-Abhängigkeiten mit `npm install`.
-- Startet den React-Entwicklungsserver mit `npm start`.
+### Beide gemeinsam starten:
 
-### Manuelle Einrichtung
+```bash
+make all
+```
 
-Falls Sie die Schritte manuell durchführen möchten:
-
-**Backend:**
-
-1. Navigieren Sie in das `backend/`-Verzeichnis:
-
-   ```bash
-   cd backend
-   ```
-
-2. Erstellen und aktivieren Sie eine virtuelle Umgebung:
-
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # Für Unix-basierte Systeme
-   # oder
-   venv\Scripts\activate     # Für Windows
-   ```
-
-3. Installieren Sie die Python-Abhängigkeiten:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Starten Sie den FastAPI-Server:
-
-   ```bash
-   uvicorn main:app --reload
-   ```
-
-**Frontend:**
-
-1. Öffnen Sie ein neues Terminal und navigieren Sie in das `frontend/`-Verzeichnis:
-
-   ```bash
-   cd frontend
-   ```
-
-2. Installieren Sie die Node.js-Abhängigkeiten:
-
-   ```bash
-   npm install
-   ```
-
-3. Starten Sie den React-Entwicklungsserver:
-
-   ```bash
-   npm start
-   ```
-
-Der React-Entwicklungsserver läuft standardmäßig auf `http://localhost:3000/`.
+Führt sowohl `make backend` als auch `make frontend` aus (nacheinander).
 
 ## Hinweise
 
-- Stellen Sie sicher, dass die Umgebungsvariablen, insbesondere für die OpenAI-API, korrekt gesetzt sind.
-- Für Produktionsumgebungen sollten zusätzliche Sicherheits- und Leistungsanpassungen vorgenommen werden.
+- Stelle sicher, dass deine `.env`-Datei im `backend/`-Verzeichnis korrekt gesetzt ist.
+- Bei der ersten Ausführung kann es ein paar Minuten dauern, bis alles installiert ist.
+- Für produktive Deployments sollten weitere Sicherheits- und Performanceoptimierungen vorgenommen werden.
 
 ## Lizenz
 
